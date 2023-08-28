@@ -1,0 +1,43 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: rgb(255, 255, 255);
+
+}
+
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+/* Колір фону скролбара */
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 60px;
+}
+
+/* Колір і стиль бару прокрутки */
+::-webkit-scrollbar-thumb {
+
+  @apply bg-red-500 shadow-red-500 rounded-2xl;
+
+}
+
+/* Змінити розмір бару прокрутки при наведенні */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+span{
+  @apply font-bold ;
+}
+button:focus{
+
+
+
+}
