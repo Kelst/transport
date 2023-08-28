@@ -6,17 +6,15 @@ import { Button, IconButton } from '@mui/material';
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import ModalAddCategory from '../Modal/ModalAddCategory';
 
-
-
 export default function Transport() {
-  
+   
   const [listOfTransport,setListOfTransport]=useState({})
   const [value, setValue] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const handleOpenAddedCategory = () => setOpen(true);
   useEffect(()=>{
-setListOfTransport(fackeDate)
-  },[])
+setListOfTransport(fackeDate) 
+  },[])  
   return (
     <main className='m-auto w-[1300px] mt-5 flex items-start listOfTransport '>
       <ModalAddCategory open={open} setOpen={setOpen} setListOfTransport={setListOfTransport} listOfTransport={listOfTransport} />

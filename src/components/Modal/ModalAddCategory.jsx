@@ -26,10 +26,12 @@ export default function ModalAddCategory({open,setOpen,setListOfTransport,listOf
   const handleClose = () => setOpen(false);
   const handleAddCategory=()=>{
     const onbj=listOfTransport;
-    onbj[category]={}
+    onbj[category]=[]
+    setListOfTransport(onbj)
+    setOpen(false)
   }
   function checkFilds() {
-    if (address != "" ) {
+    if (category  != "" ) {
       return true;
     } else return false;
   }
@@ -68,6 +70,7 @@ export default function ModalAddCategory({open,setOpen,setListOfTransport,listOf
                 <Button
                   variant="outlined"
                   startIcon={<AddCircleOutlineOutlinedIcon />}
+                  onClick={handleAddCategory}
                 >
                   додати
                 </Button>

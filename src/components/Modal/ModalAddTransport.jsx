@@ -20,7 +20,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function ModalAddTransport({ transportName, listtransport }) {
+export default function ModalAddTransport({setOfFiltered,filtered, transportName, listOfTransport,setListOfTransport }) {
   const [address, setAddress] = React.useState("");
   const [vlan, setVlan] = React.useState("");
   const [ip, setIp] = React.useState("");
@@ -37,6 +37,29 @@ export default function ModalAddTransport({ transportName, listtransport }) {
     if (address != "" || notification != "" || login != "") {
       return true;
     } else return false;
+  }
+  const handleAddNewCategory=()=>{
+
+    const  newTransport= {
+      id:Math.floor(Math.random() * (10000 - 100 + 1)) + 100,
+      adress:address,
+        vlan:vlan,
+        login:login,
+        point_access:{
+          ip:ip,
+          onu:onu,
+          port:port
+    
+        },
+        notification:notification
+    }
+    const transportObj=listOfTransport;
+    transportObj[transportName].push(newTransport)
+    setListOfTransport(transportObj)
+    setOfFiltered([...filtered])
+    setOpen(false)
+
+
   }
   return (
     <div>
@@ -132,6 +155,7 @@ export default function ModalAddTransport({ transportName, listtransport }) {
                 <Button
                   variant="outlined"
                   startIcon={<AddCircleOutlineOutlinedIcon />}
+                  onClick={handleAddNewCategory}
                 >
                   додати
                 </Button>
@@ -140,6 +164,8 @@ export default function ModalAddTransport({ transportName, listtransport }) {
                   disabled
                   variant="outlined"
                   startIcon={<AddCircleOutlineOutlinedIcon />}
+                  onClick={handleAddNewCategory}
+
                 >
                   додати
                 </Button>

@@ -80,13 +80,12 @@ export default function TabsDisplay({ value, setValue, listOfTransport ,setListO
           
             <div className="flex items-center justify-between">  
              <div></div>
-            <ModalAddTransport transportName={e}/>
            
                </div>
                 {
                   listOfTransport[e].length==0?
                   <div>Немає нічого</div>:
-                 <Cards transportCategory={ listOfTransport[e] } listOfTransport={listOfTransport} setListOfTransport={setListOfTransport}/>
+                 <Cards transportName={e} transportCategory={ listOfTransport[e] } listOfTransport={listOfTransport} setListOfTransport={setListOfTransport}/>
                 }
           </TabPanel>
         );
