@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { TextField } from "@mui/material";
+import useStore from "../../store";
 const style = {
   position: "absolute",
   top: "50%",
@@ -23,7 +24,7 @@ const style = {
 };
 
 
-export default function ModalEdited({ transport ,open,setOpen,listOfTransport,setListOfTransport,filtered,setFiltered}) {
+export default function ModalEdited({ transport,open,setOpen}) {
   const [address, setAddress] = React.useState("");
   const [vlan, setVlan] = React.useState("");
   const [ip, setIp] = React.useState("");
@@ -31,31 +32,28 @@ export default function ModalEdited({ transport ,open,setOpen,listOfTransport,se
   const [port, setPort] = React.useState("");
   const [login, setLogin] = React.useState("");
   const [notification, setNotification] = React.useState("");
-
-  function mackeEdited(data, id) {
-    for (const prop in data) {
-      if (  Array.isArray(data[prop])) {
-        data[prop] = data[prop].map(item => {
-          if(item.id==id){
-            return {...item,adress:address,vlan:vlan,login:login,point_access:{ip:ip,onu:onu,port:port}}
-          }
-          else return item
-        });
-       }
-    }
-    return data;
-  }
-  const handleClose = () => setOpen(false);
+const editedTransport=useStore(state=>state.editedTransport)
+const getAllCategory=useStore(state=>state.getAllCategory)
+ 
+const handleClose = () => setOpen(false);
 const handleSave=()=>{
-const editedDate=mackeEdited(listOfTransport,transport.id)
-setListOfTransport(editedDate)
-const newFiltered=filtered.map(item=>{
-  if(item.id==transport.id){
-                 return {...item,adress:address,vlan:vlan,login:login,point_access:{ip:ip,onu:onu,port:port}}
+const edited={
+  ...transport,
+  adress:address,
+    vlan:vlan,
+    login:login,
+    point_access:{
+      ip:ip,
+      onu:onu,
+      port:port
 
-  } else return item
-})
-setFiltered(newFiltered)
+    },
+    notification:notification,
+   
+}
+editedTransport(transport._id,edited)
+getAllCategory() 
+
 setOpen(false);
 }
   function checkFilds() {

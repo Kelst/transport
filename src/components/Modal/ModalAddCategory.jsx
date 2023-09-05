@@ -6,6 +6,8 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { TextField } from "@mui/material";
+import useStore from '../../store';
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -19,15 +21,14 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function ModalAddCategory({open,setOpen,setListOfTransport,listOfTransport}) {
+export default function ModalAddCategory({open,setOpen}) {
   const [category, setCategory] = React.useState("");
-
+  const addCategory=useStore((state)=>state.addCategory)
 
   const handleClose = () => setOpen(false);
   const handleAddCategory=()=>{
-    const onbj=listOfTransport;
-    onbj[category]=[]
-    setListOfTransport(onbj)
+  
+    addCategory(category)
     setOpen(false)
   }
   function checkFilds() {

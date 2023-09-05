@@ -7,8 +7,9 @@ import Box from "@mui/material/Box";
 import CardTransport from "../CardTransport/CardTransport";
 import { Button } from "@mui/material";
 import ModalAddTransport from "../Modal/ModalAddTransport";
-import SearchComponent from "../SearchComponent/SearchComponent";
 import Cards from "../Cards/Cards";
+import useStore from '../../store';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -39,8 +40,8 @@ function a11yProps(index) {
     "aria-controls": `vertical-tabpanel-${index}`,
   };
 }
-export default function TabsDisplay({ value, setValue, listOfTransport ,setListOfTransport}) {
-  const transportName = Object.keys(listOfTransport);
+export default function TabsDisplay({ value, setValue ,}) {
+  const categories=useStore(state=>state.category)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -67,13 +68,13 @@ export default function TabsDisplay({ value, setValue, listOfTransport ,setListO
       
         sx={{ borderRight: 2, borderColor: "white",borderRadius:15,scrollbarColor:"red"}}
       >
-        {transportName.map((e, i) => {
-          return <Tab key={i} sx={{borderColor:'white'}} label={e} {...a11yProps({ i })} />;
+        {categories.map((e, i) => {
+          return <Tab key={i} sx={{borderColor:'white'}} label={e.name} {...a11yProps({ i })} />;
         })}
         
       </Tabs>
       <div className=" m-auto ml-0 h-[650px] overflow-y-scroll w-[1300px]">
-      {transportName.map((e,i) => {
+      {categories.map((e,i) => {
         return (
             
           <TabPanel key={i}  value={value} index={i}>
@@ -83,9 +84,7 @@ export default function TabsDisplay({ value, setValue, listOfTransport ,setListO
            
                </div>
                 {
-                  listOfTransport[e].length==0?
-                  <div>Немає нічого</div>:
-                 <Cards transportName={e} transportCategory={ listOfTransport[e] } listOfTransport={listOfTransport} setListOfTransport={setListOfTransport}/>
+                 <Cards transportName={e}/>
                 }
           </TabPanel>
         );

@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { TextField } from "@mui/material";
+import useStore from "../../store";
 const style = {
   position: "absolute",
   top: "50%",
@@ -20,7 +21,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-export default function ModalAddTransport({setOfFiltered,filtered, transportName, listOfTransport,setListOfTransport }) {
+export default function ModalAddTransport({transportName}) {
   const [address, setAddress] = React.useState("");
   const [vlan, setVlan] = React.useState("");
   const [ip, setIp] = React.useState("");
@@ -32,6 +33,8 @@ export default function ModalAddTransport({setOfFiltered,filtered, transportName
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const addTransport=useStore(state=>state.addTransport)
+  const getAllCategory=useStore((state)=>state.getAllCategory)
 
   function checkFilds() {
     if (address != "" || notification != "" || login != "") {
@@ -41,22 +44,28 @@ export default function ModalAddTransport({setOfFiltered,filtered, transportName
   const handleAddNewCategory=()=>{
 
     const  newTransport= {
-      id:Math.floor(Math.random() * (10000 - 100 + 1)) + 100,
+
       adress:address,
+      id_cat:transportName._id,
         vlan:vlan,
         login:login,
         point_access:{
+          notification_point:"",
           ip:ip,
           onu:onu,
           port:port
     
         },
-        notification:notification
+        notification:notification,
+        biling_info:{
+                     bill:"",
+                     state:""
+                 }
     }
-    const transportObj=listOfTransport;
-    transportObj[transportName].push(newTransport)
-    setListOfTransport(transportObj)
-    setOfFiltered([...filtered])
+
+
+    addTransport(newTransport)
+    getAllCategory() 
     setOpen(false)
 
 
@@ -68,7 +77,7 @@ export default function ModalAddTransport({setOfFiltered,filtered, transportName
         variant="outlined"
         startIcon={<AddCircleOutlineOutlinedIcon />}
       >
-        додати транспорт {"<<"}{transportName}{">>"}
+        додати транспорт {"<<"}{transportName.name}{">>"}
       </Button>
       <Modal
         aria-labelledby="transition-modal-title"
