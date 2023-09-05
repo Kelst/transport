@@ -38,7 +38,7 @@ export default function Login() {
     let flag=await logIn(login,password)
     if(flag){
         Cookies.set('login',login, { expires: 0.02083 });
-        navigate("/home")
+        navigate("/transport")
     }else{
         showInfo("Невірний логін або пароль")
     }
