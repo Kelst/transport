@@ -6,6 +6,54 @@ const useStore=create((set,get)=>({
     listOfTransport:[],
     category:[],
     loader:false,
+    findTransport:[],
+    findTransportByFild:(field,filter)=>{
+        console.log(filter);
+    if (field==" "||field==""){
+        set({findTransport:[]})
+        return  
+    }
+        let findArray=get().listOfTransport.filter((e) => {
+            if (e.adress.toLowerCase().includes(field.trim())) {
+              return e;
+            }
+            if (e.login.toLowerCase().includes(field.trim())) {
+              return e;
+            }
+            if (e.point_access.onu.toLowerCase().includes(field.trim())) {
+              return e;
+            }
+           
+          }).filter(e=>{
+            switch (filter) {
+              case 10:
+                return e
+                break;
+              case 20:
+                return e.biling_info.disable==0
+                break;
+              case 30:
+                return e.point_access.stop==true
+                break
+                case 40:
+                  return e.biling_info.disable==1
+                  break
+                  case 50:
+                    return e.biling_info.deposit<0
+                    break
+                    case 60:
+                      return e.biling_info.exist==false
+                      break
+                      case 70:
+                        return e.point_access.ip==''
+                        break
+              default:
+                break;
+            }
+          })
+          set({findTransport:findArray})
+
+    },
     getAllTransport:async()=>{
         const response=await axios.get('http://194.8.147.150:3016/transport')
         const data= response.data
@@ -108,7 +156,7 @@ const useStore=create((set,get)=>({
         }else return false
        },
   getCategoryByName:(name)=>{
-    console.log(get().listOfTransport);
+ 
      return get().listOfTransport.filter(element=>element.id_cat.name==name)
   },
     getAllCategory:async()=>{

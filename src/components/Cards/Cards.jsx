@@ -56,6 +56,7 @@ export default function Cards({ transportName }) {
           <MenuItem value={40}>Зупинені (білінг) </MenuItem>
           <MenuItem value={50}>Мінус на рахунку </MenuItem>
           <MenuItem value={60}>Без логіну</MenuItem>
+          <MenuItem value={70}>Без обладнання</MenuItem>
         </Select>
       </FormControl>
     </Box>
@@ -99,6 +100,9 @@ export default function Cards({ transportName }) {
                   case 60:
                     return e.biling_info.exist==false
                     break
+                    case 70:
+                      return e.point_access.ip==''
+                      break
             default:
               break;
           }

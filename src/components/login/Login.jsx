@@ -32,8 +32,8 @@ export default function Login() {
       
     const handlePassword=(e)=>{
         setPassword(e.currentTarget.value)
-    }
-  const handleSubmit =async (event) => {
+    } 
+  const handleSubmit  =async (event) => {
     event.preventDefault();
     let flag=await logIn(login,password)
     if(flag){
