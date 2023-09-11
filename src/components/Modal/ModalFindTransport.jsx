@@ -27,7 +27,7 @@ const style = {
 
 export default function ModalFindTransport({ transport,open,setOpen}) {
   const [search, setSearch] = React.useState("");
-  const [vlan, setVlan] = React.useState("");
+  const [flagAuth, setFlagAuth] = React.useState(false)
 
 const findTransportByFild=useStore(state=>state.findTransportByFild)
 const findTransport=useStore(state=>state.findTransport)
@@ -56,7 +56,6 @@ const handleChangeFilter = (event) => {
  let searchTimeout;
   return (
     <div>
-
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -75,9 +74,9 @@ const handleChangeFilter = (event) => {
           <Box sx={style}   className=" rounded-xl flex  justify-center flex-col">
             <div className="flex justify-center items-center">
              <TextField fullWidth={true} onKeyDown={handleEnter} value={search} onChange={handleSearch}  label={"пошук"} variant="standard"/>
-             <FormControl >
+         {false?  <FormControl >
         <InputLabel id="demo-simple-select-label">Фільтр</InputLabel> 
-        <Select
+       <Select
           className="h-10"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -95,7 +94,7 @@ const handleChangeFilter = (event) => {
           <MenuItem value={70}>Без обладнання</MenuItem>
         </Select>
         
-      </FormControl>
+      </FormControl>:<div></div>}   
       </div>
            <div className="h-[600px]  overflow-y-auto">
             {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+
 import { Outlet } from 'react-router-dom'
 import Logo from '../../assets/logo.svg';
 import Cookies from 'js-cookie';
@@ -6,13 +7,25 @@ import { useNavigate } from 'react-router-dom';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { Button } from '@mui/material';
 import ModalFindTransport from '../Modal/ModalFindTransport';
+
 export default function Layout() {
   const [show,setShow]=useState(false)
+  const [flagAuth,setFlagAuth]=useState(false)
 const handleShowFindForm=()=>{
 
 setShow(true)
 
 }
+
+
+useEffect(()=>{
+  const cookieData = Cookies.get('login');
+      if (!cookieData) {
+       setFlagAuth(true)
+      }
+     
+ 
+},[]) 
   return (
     <div>
         <nav className='mx-2 bg-red-500 rounded-b-3xl shadow-red-200 shadow-2xl flex  justify-between items-center'>
@@ -25,7 +38,7 @@ setShow(true)
             </ul>
            <div onClick={handleShowFindForm} >  <SearchOutlinedIcon fontSize='large'  className='   justify-items-end  text-white  cursor-pointer mr-10'/></div> 
         </nav>
-        <ModalFindTransport open={show} setOpen={setShow}/>
+     {!flagAuth &&   <ModalFindTransport open={show} setOpen={setShow}/>}
       <Outlet />
 
     </div>
