@@ -66,9 +66,15 @@ export default function ModalAddTransport({transportName}) {
 
     addTransport(newTransport)
     getAllCategory() 
+    setAddress("")
+    setIp("")
+    setVlan("")
+    setIp("")
+    setOnu("")
+    setPort("")
+    setLogin("")
+    setNotification("")
     setOpen(false)
-
-
   }
   return (
     <div>

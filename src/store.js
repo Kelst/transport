@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { element } from 'prop-types';
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
@@ -159,6 +160,27 @@ const useStore=create((set,get)=>({
  
      return get().listOfTransport.filter(element=>element.id_cat.name==name)
   },
+  getIdCategoryByName: async (name,checked)=>{
+    try {
+        
+        set({... get(),loader:true})   
+    let id_arr= get().listOfTransport.filter(element=>element.id_cat.name==name).map((e)=>e._id)
+    console.log(id_arr);
+    let resp= await axios.post("http://194.8.147.150:3016/skip-checked-all",{id_device:id_arr,checked:checked})
+    let data=resp.data
+    await get().getAllTransport()
+    console.log(data);
+    set({... get(),loader:false})   
+    
+}
+catch (error) {
+    set({... get(),loader:false})    
+    console.log(error);
+    }
+    finally{
+        set({... get(),loader:false})   
+    }
+ },
     getAllCategory:async()=>{
         const response=await axios.get('http://194.8.147.150:3016/category')
         const data= response.data

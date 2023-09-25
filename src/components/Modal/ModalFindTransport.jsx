@@ -74,7 +74,7 @@ const handleChangeFilter = (event) => {
           <Box sx={style}   className=" rounded-xl flex  justify-center flex-col">
             <div className="flex justify-center items-center">
              <TextField fullWidth={true} onKeyDown={handleEnter} value={search} onChange={handleSearch}  label={"пошук"} variant="standard"/>
-         {false?  <FormControl >
+        <FormControl >
         <InputLabel id="demo-simple-select-label">Фільтр</InputLabel> 
        <Select
           className="h-10"
@@ -94,7 +94,7 @@ const handleChangeFilter = (event) => {
           <MenuItem value={70}>Без обладнання</MenuItem>
         </Select>
         
-      </FormControl>:<div></div>}   
+      </FormControl>:<div></div> 
       </div>
            <div className="h-[600px]  overflow-y-auto">
             {

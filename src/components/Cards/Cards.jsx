@@ -2,30 +2,40 @@ import React, { useEffect, useState } from "react";
 import CardTransport from "../CardTransport/CardTransport";
 import ModalAddTransport from "../Modal/ModalAddTransport";
 import useStore from "../../store";
-import { Box, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Checkbox, InputLabel, MenuItem, Select, Switch, TextField } from "@mui/material";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel'
+import LoaderData from "../loaderData/LoaderData";
 export default function Cards({ transportName }) {
   const [text, setText] = useState("");
   const [filter, setFilter] = useState(10);
+  const [checked, setChecked] = React.useState(false);
+  const loader=useStore(store=>store.loader)
 
   const handleChange = (event) => {
     setFilter(event.target.value);
    
   };
-  const listOfTransport=useStore((state=>state.listOfTransport))
+  const getIdCategoryByName=useStore((state=>state.getIdCategoryByName))
   let transportsCategory = useStore((state) =>
     state.getCategoryByName(transportName.name) 
-  );
+  ); 
+  const handleChangeToogle =async (event) => {
+    setChecked(event.target.checked);
+    await getIdCategoryByName(transportName.name,event.target.checked)
+    
+  };
   const handleFind = (event) => {
     setText(event.target.value);
   };
 
   return (
     <>
+    
+    <div className="sticky top-1  z-50 bg-white p-3">
       <div className="flex justify-between">
         <div></div>
         <ModalAddTransport transportName={transportName} />
@@ -60,8 +70,16 @@ export default function Cards({ transportName }) {
         </Select>
       </FormControl>
     </Box>
+    <FormControlLabel className="mt-4" 
+     control={<Switch 
+      checked={checked}
+      onChange={handleChangeToogle}
+      inputProps={{ 'aria-label': 'controlled' }}
+      color="warning" />} 
+     label=" якщо мінус" />
+  
       </div>
-
+      </div>
       {transportsCategory
         .filter((e) => {
           if (e.adress.toLowerCase().includes(text.trim())) {
@@ -110,6 +128,7 @@ export default function Cards({ transportName }) {
         .map((e, i) => {
           return <CardTransport key={e._id} transport={e} />;
         })}
+        {loader&&<LoaderData/>}
     </>
   );
 }

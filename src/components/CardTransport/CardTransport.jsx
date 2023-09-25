@@ -58,7 +58,7 @@ const deleteTransport=()=>{
 
   return (
     <Card className="mt-5 p-2 shadow-xl" variant="outlined">
-            <DialogAlert textAlert={'Ви хочете видалити транспорт ?'} handlefunction={deleteTransport} setOpen={setOpenDialog} open={openDialog  } />
+                <DialogAlert textAlert={'Ви хочете видалити транспорт ?'} handlefunction={deleteTransport} setOpen={setOpenDialog} open={openDialog  } />
 
        <ModalEdited open={open} setOpen={setOpen}  
        transport={transport}
