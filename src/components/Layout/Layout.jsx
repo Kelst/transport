@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-
+import Button from "@mui/material/Button";
 import { Outlet } from 'react-router-dom'
 import Logo from '../../assets/logo.svg';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { Button } from '@mui/material';
+import {  ButtonBase } from '@mui/material';
 import ModalFindTransport from '../Modal/ModalFindTransport';
+import Buttom from '../Buttom/Buttom';
 
 export default function Layout() {
   const [show,setShow]=useState(false)
@@ -23,7 +24,7 @@ useEffect(()=>{
       if (!cookieData) {
        setFlagAuth(true)
       }
-     
+      setFlagAuth(true)
  
 },[]) 
   return (
@@ -34,11 +35,14 @@ useEffect(()=>{
           
                 <li className='text-white ml-10 mr-5 drop-shadow'><img className=' object-cover h-[100px] w-[140px] shadow-2xl rounded-2xl p-1 cursor-pointer' src={Logo} alt="" /></li>
                 <h1 className='font-bold text-2xl text-gray-200 '>Транспорти </h1>
-              
+                
             </ul>
+          
+            
            <div onClick={handleShowFindForm} >  <SearchOutlinedIcon fontSize='large'  className='   justify-items-end  text-white  cursor-pointer mr-10'/></div> 
-        </nav>
-     {!flagAuth &&   <ModalFindTransport open={show} setOpen={setShow}/>}
+       </nav>
+      
+     {flagAuth &&   <ModalFindTransport open={show} setOpen={setShow}/>}
       <Outlet />
 
     </div>

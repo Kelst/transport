@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardTransport from "../CardTransport/CardTransport";
 import ModalAddTransport from "../Modal/ModalAddTransport";
 import useStore from "../../store";
-import { Box, Checkbox, InputLabel, MenuItem, Select, Switch, TextField } from "@mui/material";
+import { Box, Checkbox, InputLabel, MenuItem, Select, Switch, TextField,Button, Tooltip } from "@mui/material";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -14,7 +14,11 @@ export default function Cards({ transportName }) {
   const [filter, setFilter] = useState(10);
   const [checked, setChecked] = React.useState(false);
   const loader=useStore(store=>store.loader)
-
+  const checkBilling=useStore(store=>store.checkBilling)
+  const handleCheckBilling = async()=>{
+   
+   await  checkBilling()
+  }
   const handleChange = (event) => {
     setFilter(event.target.value);
    
@@ -48,6 +52,7 @@ export default function Cards({ transportName }) {
           onChange={handleFind}
           variant="standard"
         />
+        
  <Box sx={{ minWidth: 110,minHeight:5 }}    className="mt-4 " > 
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Фільтр</InputLabel> 
@@ -77,8 +82,12 @@ export default function Cards({ transportName }) {
       inputProps={{ 'aria-label': 'controlled' }}
       color="warning" />} 
      label=" якщо мінус" />
-  
+     <div className="mt-4 " >
+      <Button onClick={handleCheckBilling}  > <Tooltip title="Update from Billing">Update</Tooltip>  </Button> 
+     </div>
+    
       </div>
+      
       </div>
       {transportsCategory
         .filter((e) => {

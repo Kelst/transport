@@ -17,14 +17,18 @@ import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
 import { FormControlLabel, FormGroup, Tooltip } from "@mui/material";
 import PlayCircleFilledWhiteOutlinedIcon from '@mui/icons-material/PlayCircleFilledWhiteOutlined';
 import LoaderData from "../loaderData/LoaderData";
+import InfoBars from "../info/InfoBars";
 export default function   CardTransport({ transport }) {
   const [open, setOpen] = React.useState(false);
+  
   const [openDialog, setOpenDialog] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const [depositChecked, setDepositChecked] = useState(false);
     const stopTransport=useStore(store=>store.stopTransport)
     const startTransport=useStore(store=>store.startTransport) 
     const loader=useStore(store=>store.loader)
+    const notificationStop=useStore(store=>store.notificationStop)
+    
     const deleteTransporta=useStore(store=>store.deleteTransport)
     const activateBilling=useStore(store=>store.activateBilling)
     const skipChecked=useStore(store=>store.skipChecked)
@@ -55,7 +59,11 @@ const deleteTransport=()=>{
   deleteTransporta(transport._id)
 
 }
+useEffect(()=>{
+  if(notificationStop!=""){
+setOpenInfo(true)}
 
+},[notificationStop])
   return (
     <Card className="mt-5 p-2 shadow-xl" variant="outlined">
                 <DialogAlert textAlert={'Ви хочете видалити транспорт ?'} handlefunction={deleteTransport} setOpen={setOpenDialog} open={openDialog  } />
@@ -145,6 +153,7 @@ const deleteTransport=()=>{
 
       </div>
       {loader&&<LoaderData/>}
+      <InfoBars open={openInfo} setOpen={setOpenInfo} text={notificationStop}/>
     </Card>
   );
 }

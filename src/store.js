@@ -8,10 +8,23 @@ const useStore=create((set,get)=>({
     category:[],
     loader:false,
     findTransport:[],
+    notificationStop:"",
+    openInfo:false,
+
+
+    checkBilling:async ()=>{
+        set({loader:true})
+        const response=await axios.get('http://194.8.147.150:3016/checkBilling')
+        const data= response.data
+        set({listOfTransport:data,loader:false})
+
+    },
     findTransportByFild:(field,filter)=>{
-        console.log(filter);
+   
+        set({loader:true}) 
+            console.log(get().loader);
     if (field==" "||field==""){
-        set({findTransport:[]})
+        set({findTransport:[],loader:false})
         return  
     }
         let findArray=get().listOfTransport.filter((e) => {
@@ -52,8 +65,20 @@ const useStore=create((set,get)=>({
                 break;
             }
           })
-          set({findTransport:findArray})
+          set({findTransport:findArray,loader:false})
 
+    },
+    getTransport:()=>{
+   
+        set({loader:true}) 
+            console.log(get().loader);
+   
+       
+          set({findTransport:get().listOfTransport,loader:false})
+
+    },
+    setFindTransport:()=>{
+        set({findTransport:[]})
     },
     getAllTransport:async()=>{
         const response=await axios.get('http://194.8.147.150:3016/transport')
@@ -94,13 +119,15 @@ const useStore=create((set,get)=>({
     },
     stopTransport:async (id,stopPlay)=>{
         try {
-         set({... get(),loader:true})   
+         set({... get(),loader:true,notificationStop:""})   
             const response=await axios.post('http://194.8.147.150:3016/stopPlayDevice',{id:id,stopPlay:stopPlay})
             const data= response.data
+            console.log(data);
+            set({... get(),notificationStop:data.point_access.notification_point})  
              await get().getAllTransport()
           
         } catch (error) {
-            set({... get(),loader:false})  
+            set({... get(),loader:false,notificationStop:"Помилка"})  
         }
         finally {
             set({... get(),loader:false})  
@@ -108,13 +135,14 @@ const useStore=create((set,get)=>({
     },
     startTransport:async (id,stopPlay)=>{
         try {
-         set({... get(),loader:true})   
+            set({... get(),loader:true,notificationStop:""})   
             const response=await axios.post('http://194.8.147.150:3016/stopPlayDevice',{id:id,stopPlay:stopPlay})
             const data= response.data
+            set({... get(),notificationStop:data.point_access.notification_point})  
              await get().getAllTransport()
           
         } catch (error) {
-            set({... get(),loader:false})  
+            set({... get(),loader:false,notificationStop:"Помилка "+error})  
         }
         finally {
             set({... get(),loader:false})  

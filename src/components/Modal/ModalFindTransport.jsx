@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
     import Modal from "@mui/material/Modal";
+    import LoadingButton from '@mui/lab/LoadingButton';
+
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -10,6 +12,7 @@ import { FormControl, TextField } from "@mui/material";
 import useStore from "../../store";
 import CardTransport from "../CardTransport/CardTransport";
 import { Box, InputLabel, MenuItem, Select, } from "@mui/material";
+import LoaderData from "../loaderData/LoaderData";
 const style = {
   position: "absolute",
   top: "50%",
@@ -27,16 +30,26 @@ const style = {
 
 export default function ModalFindTransport({ transport,open,setOpen}) {
   const [search, setSearch] = React.useState("");
-  const [flagAuth, setFlagAuth] = React.useState(false)
+  const [flagLoader, setFlagLoader] = React.useState(false)
 
 const findTransportByFild=useStore(state=>state.findTransportByFild)
 const findTransport=useStore(state=>state.findTransport)
+const getTransport=useStore(state=>state.getTransport)
+const setFindTransport=useStore(state=>state.setFindTransport)
+
+const loader=useStore(state=>state.loader)
 const [filter, setFilter] = useState(10);
  
-const handleClose = () => setOpen(false);
-const handleEnter=(e)=>{
-    if (e.keyCode === 13) {
-    findTransportByFild(search,filter)}
+const handleClose = () => { 
+  setFindTransport()
+  setOpen(false)};
+const handleEnter= async(e)=>{
+    console.log(loader)
+  await  findTransportByFild(search,filter)
+
+}
+const handleGetAll=async()=>{
+ await getTransport()
 }
 const handleSearch=(e)=>{
     setSearch(e.target.value)
@@ -56,6 +69,7 @@ const handleChangeFilter = (event) => {
  let searchTimeout;
   return (
     <div>
+      
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -72,8 +86,26 @@ const handleChangeFilter = (event) => {
       >
         <Fade in={open}>
           <Box sx={style}   className=" rounded-xl flex  justify-center flex-col">
-            <div className="flex justify-center items-center">
-             <TextField fullWidth={true} onKeyDown={handleEnter} value={search} onChange={handleSearch}  label={"пошук"} variant="standard"/>
+            <div className="flex justify-center items-center gap-5">
+             <TextField className=" w-[500px]"  value={search} onChange={handleSearch}  label={"пошук"} variant="standard"/>
+             
+             <LoadingButton
+        loading={loader}
+        loadingPosition="start"
+        onClick={handleEnter}
+        variant="outlined"
+      >
+        Пошук
+      </LoadingButton>
+      <LoadingButton
+        loading={loader}
+        loadingPosition="start"
+        onClick={handleGetAll}
+        variant="outlined"
+      >
+        Всі
+      </LoadingButton>
+      
         <FormControl >
         <InputLabel id="demo-simple-select-label">Фільтр</InputLabel> 
        <Select
@@ -94,18 +126,20 @@ const handleChangeFilter = (event) => {
           <MenuItem value={70}>Без обладнання</MenuItem>
         </Select>
         
-      </FormControl>:<div></div> 
+      </FormControl><div></div> 
       </div>
            <div className="h-[600px]  overflow-y-auto">
             {
-                findTransport.map(e=>{
-                    return <CardTransport transport={e}/>
+                findTransport.map((e,id)=>{
+                    return <CardTransport key={id} transport={e}/>
                 })
             }
             </div>
           </Box>
-        </Fade>
+        </Fade> 
+       
       </Modal>
+     
     </div>
   );
 }
