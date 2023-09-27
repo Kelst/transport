@@ -108,7 +108,7 @@ setOpenInfo(true)}
           }
           {/* <Button size="small" disabled={transport.login==''}variant="outlined" startIcon={<CachedOutlinedIcon/>} >Обновити</Button> */}
           <FormGroup>
-      <FormControlLabel control={<Checkbox checked={transport.skip} onChange={handleChange} />} label="Не вимикати якщо мінус" />
+      <FormControlLabel control={<Tooltip  title="не вимикати якщо мінус на рахунку"> <Checkbox checked={transport.skip} onChange={handleChange} /></Tooltip>} label="Не вимикати якщо мінус" />
 
     </FormGroup>
         

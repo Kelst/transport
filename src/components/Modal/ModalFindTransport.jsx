@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, TextField, Tooltip } from "@mui/material";
 import useStore from "../../store";
 import CardTransport from "../CardTransport/CardTransport";
 import { Box, InputLabel, MenuItem, Select, } from "@mui/material";
@@ -108,6 +108,7 @@ const handleChangeFilter = (event) => {
       
         <FormControl >
         <InputLabel id="demo-simple-select-label">Фільтр</InputLabel> 
+        <Tooltip title={`Кількість: ${findTransport.length}`}>
        <Select
           className="h-10"
           labelId="demo-simple-select-label"
@@ -125,7 +126,7 @@ const handleChangeFilter = (event) => {
           <MenuItem value={60}>Без логіну</MenuItem>
           <MenuItem value={70}>Без обладнання</MenuItem>
         </Select>
-        
+        </Tooltip>
       </FormControl><div></div> 
       </div>
            <div className="h-[600px]  overflow-y-auto">
