@@ -13,20 +13,20 @@ const useStore=create((set,get)=>({
 
 
     checkBilling:async ()=>{
-        set({loader:true})
+        set({...get(),loader:true})
         const response=await axios.get('http://194.8.147.150:3016/checkBilling')
         const data= response.data
-        set({listOfTransport:data,loader:false})
+        set({...get(),listOfTransport:data,loader:false})
 
     },
     findTransportByFild:(field,filter)=>{
    
-        set({loader:true}) 
+        set({...get(),loader:true}) 
             console.log(get().loader);
-    if (field==" "||field==""){
-        set({findTransport:[],loader:false})
-        return  
-    }
+    // if (field==" "||field==""){
+    //     set({...get(),findTransport:[],loader:false})
+    //     return  
+    // }
         let findArray=get().listOfTransport.filter((e) => {
             if (e.adress.toLowerCase().includes(field.trim())) {
               return e;
@@ -65,7 +65,7 @@ const useStore=create((set,get)=>({
                 break;
             }
           })
-          set({findTransport:findArray,loader:false})
+          set({...get(),findTransport:findArray,loader:false})
 
     },
     getTransport:()=>{
